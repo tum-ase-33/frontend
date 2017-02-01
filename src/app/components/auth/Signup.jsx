@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import * as actions from '../../actions/auth';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import * as actions from '../../actions/auth';
+
 
 const renderField = ({ input, type, placeholder, meta: { touched, error } }) => (
   <div className={`input-group ${touched && error ? 'has-error' : ''}`}>
@@ -40,7 +41,7 @@ class Signup extends Component {
           {/* Password */}
           <Field name="password" component={renderField} type="password" placeholder="Password" />
 
-          {/* Email */}
+          {/* Password */}
           <Field name="repassword" component={renderField} type="password" placeholder="Repeat Password" />
 
           {/* Server error message */}
@@ -72,7 +73,6 @@ const validate = props => {
       errors[f] = `${f} is required`;
     }
   });
-
 
 
   if(props.matrikelNr && props.matrikelNr.length == 8) {

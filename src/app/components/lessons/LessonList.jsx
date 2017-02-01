@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import * as actions from '../../actions/lessons';
 
 class LessonList extends Component {
@@ -27,6 +28,7 @@ class LessonList extends Component {
   render() {
     return (
       <div className="content users">
+        <Link to="/lessons/new">Create a new Lesson</Link>
         <h1>Hello { this.user.matrikelNr }</h1>
         <p>Here are auth protected lesson matrikelNr! :)</p>
         <ul>

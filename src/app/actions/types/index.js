@@ -9,3 +9,8 @@ export const UNAUTH_USER = 'UNAUTH_USER';
 export const FETCH_USERS = 'FETCH_USERS';
 
 export const FETCH_LESSONS = 'FETCH_LESSONS';
+
+// Create new lesson
+export const CREATE_LESSON_SUCCESS = 'CREATE_LESSON_SUCCESS';
+export const CREATE_LESSON_FAILURE = 'CREATE_LESSON_FAILURE';
+export const RESET_NEW_LESSON = 'RESET_NEW_LESSON';
