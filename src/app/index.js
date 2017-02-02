@@ -19,6 +19,7 @@ const store = createStore(
 );
 
 const user = JSON.parse(localStorage.getItem('user'));
+console.log(user);
 
 if (user && user.token) {
   store.dispatch({ type: AUTH_USER });

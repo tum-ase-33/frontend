@@ -20,7 +20,7 @@ class LessonForm extends Component {
   }
 
   handleFormSubmit(formProps) {
-    this.props.createLesson(formProps);
+    this.props.handleFormSubmit(formProps);
   }
 
   render() {
@@ -61,7 +61,7 @@ const validate = props => {
 
 
   if(props.name && props.name.length < 3) {
-    errors.password = "minimum 3 characters";
+    errors.name = "minimum 3 characters";
   }
 
 
@@ -71,6 +71,10 @@ const validate = props => {
 
 function mapStateToProps(state) {
   return { errorMessage: state.lesson.error };
+}
+LessonForm.propTypes = {
+  handleFormSubmit: React.PropTypes.func.isRequired,
+  handleSubmit: React.PropTypes.func.isRequired,
 }
 
 LessonForm = reduxForm({ form: 'LessonForm', validate })(LessonForm);
