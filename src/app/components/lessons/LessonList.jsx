@@ -1,46 +1,16 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import * as actions from '../../actions/lessons';
+import React, { PropTypes } from 'react';
 
-class LessonList extends Component {
-  componentWillMount() {
-    this.props.fetchLessons();
+const LessonList = ({ lessons }) => {
+  return (
+    <ul className="list-group">
+      {lessons.map((lesson, i) =>
+        <li className="list-group-item" key={i}>
+          {lesson.name}
+        </li>
+      )}
+    </ul>
+  );
+};
 
-    this.user = JSON.parse(localStorage.getItem('user'));
-  }
 
-  renderLessons() {
-    let lessons = this.props.lessons;
-    if (lessons == null) {
-      lessons = [];
-    }
-    console.log(lessons.data);
-    // const lessons = this.props.lessons || [];
-    if (lessons.data == null) {
-      return null;
-    }
-    return lessons.data.map((lesson, i) => {
-      return <li key={i}>{ lesson.name }</li>
-    })
-  }
-
-  render() {
-    return (
-      <div className="content users">
-        <Link to="/lessons/new">Create a new Lesson</Link>
-        <h1>Hello { this.user.matrikelNr }</h1>
-        <p>Here are auth protected lesson matrikelNr! :)</p>
-        <ul>
-          { this.renderLessons() }
-        </ul>
-      </div>
-    )
-  }
-}
-
-function mapStateToProps(state) {
-  return { lessons: state.lesson.list };
-}
-
-export default connect(mapStateToProps, actions)(LessonList);
+export default LessonList;

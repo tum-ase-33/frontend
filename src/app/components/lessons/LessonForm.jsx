@@ -28,10 +28,10 @@ class LessonForm extends Component {
 
     return (
       <div className="form-container">
-        <h1>Create Lesson</h1>
+        <h1>Lesson</h1>
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
 
-          {/* Email */}
+          {/* name */}
           <Field name="name" component={renderField} type="text" placeholder="Lesson name" />
 
           {/* Server error message */}
@@ -41,7 +41,7 @@ class LessonForm extends Component {
           </div>
 
           {/* Submit button */}
-          <button type="submit" className="btn">Create Lesson</button>
+          <button type="submit" className="btn">Send</button>
 
         </form>
       </div>

@@ -1,5 +1,6 @@
 import {
-  FETCH_LESSONS, CREATE_LESSON_SUCCESS, CREATE_LESSON_FAILURE
+  FETCH_LESSONS, CREATE_LESSON_SUCCESS, CREATE_LESSON_FAILURE,
+  EDIT_LESSON_SUCCESS, EDIT_LESSON_FAILURE,
 } from '../actions/types/index';
 
 export default function(state = {}, action) {
@@ -9,6 +10,10 @@ export default function(state = {}, action) {
     case CREATE_LESSON_SUCCESS:
     	return {newLesson: action.payload, ...state,error: {}};
     case CREATE_LESSON_FAILURE:
+    	return { ...state,error: { lesson: action.payload }};
+    case EDIT_LESSON_SUCCESS:
+    	return {newLesson: action.payload, ...state,error: {}};
+    case EDIT_LESSON_FAILURE:
     	return { ...state,error: { lesson: action.payload }};
   }
 
