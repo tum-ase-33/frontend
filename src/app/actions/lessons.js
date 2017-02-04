@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 import { API_URL } from '../config';
 import {
   FETCH_LESSONS, CREATE_LESSON_SUCCESS, CREATE_LESSON_FAILURE,
-  EDIT_LESSON_SUCCESS, EDIT_LESSON_FAILURE,
+  EDIT_LESSON_SUCCESS, EDIT_LESSON_FAILURE, FETCH_LESSONS_GROUPS
 } from './types/index';
 /**
  * Error helper
@@ -23,10 +23,10 @@ export function fetchLessons() {
   return function (dispatch) {
     axios.get(`${API_URL}/lessons`, { headers: { Accept: 'application/json', Authorization: `Bearer ${user.token}` } })
       .then((response) => {
-        console.log(response);
+        console.log(response.data.data);
         dispatch({
           type: FETCH_LESSONS,
-          payload: response.data,
+          payload: response.data.data,
         });
       });
   }
@@ -65,5 +65,19 @@ export function editLesson(_id, props) {
         });
         browserHistory.push('/lessons');
       }).catch(response => dispatch(lessonError(EDIT_LESSON_FAILURE, response.data.error)));
+  }
+}
+export function fetchLessonGroups(lessonId) {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  return function (dispatch) {
+    axios.get(`${API_URL}/lesson-groups?lessonId=${lessonId}`, { headers: { Accept: 'application/json', Authorization: `Bearer ${user.token}` } })
+      .then((response) => {
+        console.log(response.data.data);
+        dispatch({
+          type: FETCH_LESSONS_GROUPS,
+          payload: response.data.data,
+        });
+      });
   }
 }

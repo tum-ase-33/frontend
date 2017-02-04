@@ -15,14 +15,12 @@ class LessonsPage extends React.Component {
     if (lessons == null) {
       lessons = [];
     }
-    if (lessons.data == null) {
-      return null;
-    }
+
     return (
       <div className="col-md-12">
         <h1>Lessons</h1>
         <div className="col-md-4">
-          <LessonList lessons={lessons.data} />
+          <LessonList lessons={lessons} />
         </div>
         <div className="col-md-8">
           {this.props.children}
