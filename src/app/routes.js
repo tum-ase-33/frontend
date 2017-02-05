@@ -6,7 +6,8 @@ import UserList from './components/users/UserList';
 import LessonsPage from './components/lessons/LessonsPage';
 import LessonPage from './components/lessons/LessonPage';
 import LessonCreate from './components/lessons/LessonCreate';
-import LessonEdit from './components/lessons/LessonEdit';
+import LessonGroupCreate from './components/lessons/LessonGroupCreate';
+import LessonGroupPage from './components/lessons/LessonGroupPage'
 import Signin from './components/auth/Signin';
 import Signout from './components/auth/Signout';
 import Signup from './components/auth/Signup';
@@ -23,7 +24,8 @@ export default (
     <Route path="lessons" component={requireAuth(LessonsPage)} />
     <Route path="lessons/new" component={requireAuth(LessonCreate)} />
     <Route path="lessons/:id" component={requireAuth(LessonPage)} />
-    <Route path="lessons/edit/:id" component={requireAuth(LessonEdit)} />
+    <Route path="lessons/:lid/groups/:gid" component={requireAuth(LessonGroupPage)} />
+    <Route path="lessons/:id/new" component={requireAuth(LessonGroupCreate)} />
     <Route path="users" component={requireAuth(UserList)} />
   </Route>
 )

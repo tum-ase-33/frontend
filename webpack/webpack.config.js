@@ -66,6 +66,11 @@ module.exports = (options) => {
       loaders: ['style', 'css', 'sass'],
     });
 
+    webpackConfig.module.loaders.push({
+      test: /\.css/,
+      loaders: ['style', 'css'],
+    });
+
     webpackConfig.devServer = {
       contentBase: Path.join(__dirname, '../'),
       hot: true,

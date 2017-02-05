@@ -5,6 +5,8 @@ import {
   FETCH_LESSONS, CREATE_LESSON_SUCCESS, CREATE_LESSON_FAILURE,
   EDIT_LESSON_SUCCESS, EDIT_LESSON_FAILURE, FETCH_LESSONS_GROUPS, UNAUTH_USER,
   DELETE_LESSON_SUCCESS, DELETE_LESSON_FAILURE,
+  CREATE_LESSON_GROUP_SUCCESS, CREATE_LESSON_GROUP_FAILURE,
+  SET_DATE_LESSON_GROUP_FAILURE, SET_DATE_LESSON_GROUP_SUCCESS,
 } from './types/index';
 /**
  * Error helper
@@ -22,7 +24,7 @@ export function fetchLessons() {
   const user = JSON.parse(localStorage.getItem('user'));
 
   return function (dispatch) {
-    axios.get(`${API_URL}/lessons`, { headers: { Accept: 'application/json', Authorization: `Bearer ${user.token}` } })
+    axios.get(`${API_URL}/lessons?$limit=100`, { headers: { Accept: 'application/json', Authorization: `Bearer ${user.token}` } })
       .then((response) => {
         console.log(response.data.data);
         dispatch({
@@ -75,7 +77,7 @@ export function editLesson(lesson) {
   const user = JSON.parse(localStorage.getItem('user'));
   console.log(lesson);
   return function (dispatch) {
-    axios.put(`${API_URL}/lessons/${lesson._id}`, JSON.stringify({ lesson }), { headers: { Accept: 'application/json', Authorization: `Bearer ${user.token}` } })
+    axios.patch(`${API_URL}/lessons/${lesson._id}`, lesson, { headers: { Accept: 'application/json', Authorization: `Bearer ${user.token}` } })
       .then((response) => {
         console.log(response);
         dispatch({
@@ -98,5 +100,31 @@ export function fetchLessonGroups(lessonId) {
           payload: response.data.data,
         });
       });
+  }
+}
+/**
+ * Create Lesson Groups
+ */
+export function createLessonGroup(props, lessonId) {
+  const user = JSON.parse(localStorage.getItem('user'));
+  console.log("clg");
+  console.log(props);
+  console.log(lessonId);
+  const data = {
+      name: props.name,
+      lessonId: lessonId,
+      dates: props.dates,
+  };
+
+  return function (dispatch) {
+    axios.post(`${API_URL}/lesson-groups`, data, { headers: { Accept: 'application/json', Authorization: `Bearer ${user.token}` } })
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: CREATE_LESSON_GROUP_SUCCESS,
+          payload: response.data,
+        });
+        browserHistory.push(`/lessons/${lessonId}`);
+      }).catch(response => dispatch(lessonError(CREATE_LESSON_GROUP_FAILURE, response.data.error)));
   }
 }

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { fetchLessons, fetchLessonGroups, editLesson, deleteLesson } from '../../actions/lessons';
 import LessonGroupsList from './LessonGroupsList'
 import LessonForm from './LessonForm'
@@ -34,6 +35,7 @@ class LessonPage extends React.Component {
     console.log("saveLesson");
     console.log(this.state.lesson);
     this.props.onUpdateLesson(this.state.lesson);
+    this.setState({ isEditing:false });
  }
   updateLessonState(event) {
     const field = event.target.name;
@@ -70,13 +72,11 @@ class LessonPage extends React.Component {
       return (
         <div className="col-md-8 col-md-offset-2">
           <h1>{this.props.lesson.name}</h1>
-          <LessonGroupsList lessonGroups={this.props.lessonGroups} />
+          <LessonGroupsList lessonGroups={this.props.lessonGroups} lessonId={this.props.lesson._id}/>
+          <Link to={`/lessons/${this.props.lessonId}/new`} className="btn btn-default">
+            Create New Group
+          </Link>
           <button className="btn btn-default" onClick={this.toggleEdit}>edit</button>
-          <button
-            onClick={this.deleteLesson}
-            className="btn btn-default">
-            delete
-         </button>
         </div>
     );
   }
@@ -98,7 +98,7 @@ function mapStateToProps(state, ownProps) {
   const lessons = state.lesson.list;
   console.log("anan");
   console.log(lessons);
-  const lessonGroups = state.lesson.groupList;
+  let lessonGroups = state.lesson.groupList;
   let lesson = { name: '' };
 
   if (lessons == null) {
@@ -106,6 +106,8 @@ function mapStateToProps(state, ownProps) {
   }
 
   lesson = Object.assign({}, lessons.find(l => l._id === lessonId));
+  lessonGroups = lessonGroups.filter(l => l.lessonId === lessonId);
+  console.log(lessonGroups);
   return { lesson, lessonGroups, lessonId };
 }
 
