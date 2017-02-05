@@ -6,7 +6,8 @@ import {
   EDIT_LESSON_SUCCESS, EDIT_LESSON_FAILURE, FETCH_LESSONS_GROUPS, UNAUTH_USER,
   DELETE_LESSON_SUCCESS, DELETE_LESSON_FAILURE,
   CREATE_LESSON_GROUP_SUCCESS, CREATE_LESSON_GROUP_FAILURE,
-  SET_DATE_LESSON_GROUP_FAILURE, SET_DATE_LESSON_GROUP_SUCCESS,
+  ASSIGN_LESSON_GROUP_SUCCESS, ASSIGN_LESSON_GROUP_FAILURE,
+  FETCH_LESSONS_GROUPS_USERS
 } from './types/index';
 /**
  * Error helper
@@ -126,5 +127,46 @@ export function createLessonGroup(props, lessonId) {
         });
         browserHistory.push(`/lessons/${lessonId}`);
       }).catch(response => dispatch(lessonError(CREATE_LESSON_GROUP_FAILURE, response.data.error)));
+  }
+}
+/**
+ * assign Lesson Group
+ */
+export function assignLessonGroup(lessonId, lessonGroupId) {
+  const user = JSON.parse(localStorage.getItem('user'));
+  console.log(user);
+  const data = {
+      userId: user.data._id,
+      lessonId: lessonId,
+      lessonGroupId: lessonGroupId,
+  };
+
+  return function (dispatch) {
+    axios.post(`${API_URL}/user-lesson-assignments`, data, { headers: { Accept: 'application/json', Authorization: `Bearer ${user.token}` } })
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: ASSIGN_LESSON_GROUP_SUCCESS,
+          payload: response.data,
+        });
+        browserHistory.push(`/lessons/${lessonId}`);
+      }).catch(response => dispatch(lessonError(ASSIGN_LESSON_GROUP_FAILURE, response.data.error)));
+  }
+}
+/**
+ * Fetch Lesson Group Users
+ */
+export function fetchLessonGroupUsers(lessonId) {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  return function (dispatch) {
+    axios.get(`${API_URL}/user-lesson-assignments?lessonId=${lessonId}`, { headers: { Accept: 'application/json', Authorization: `Bearer ${user.token}` } })
+      .then((response) => {
+        console.log(response.data.data);
+        dispatch({
+          type: FETCH_LESSONS_GROUPS_USERS,
+          payload: response.data.data,
+        });
+      }).catch(response => dispatch({ type: UNAUTH_USER }));
   }
 }
