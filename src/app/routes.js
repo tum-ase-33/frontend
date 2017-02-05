@@ -21,8 +21,8 @@ export default (
     <Route path="signup" component={requireNotAuth(Signup)} />
     <Route path="signout" component={Signout} />
     <Route path="lessons" component={requireAuth(LessonsPage)} />
-    <Route path="lessons/:id" component={requireAuth(LessonPage)} />
     <Route path="lessons/new" component={requireAuth(LessonCreate)} />
+    <Route path="lessons/:id" component={requireAuth(LessonPage)} />
     <Route path="lessons/edit/:id" component={requireAuth(LessonEdit)} />
     <Route path="users" component={requireAuth(UserList)} />
   </Route>

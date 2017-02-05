@@ -1,82 +1,34 @@
-import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import * as actions from '../../actions/lessons';
+import React, {PropTypes} from 'react';
+import TextInput from '../common/TextInput';
 
-
-const renderField = ({ input, type, placeholder, meta: { touched, error } }) => (
-  <div className={`input-group ${touched && error ? 'has-error' : ''}`}>
-    <input type={type} placeholder={placeholder} {...input} />
-    { touched && error && <div className="form-error">{error}</div> }
-  </div>
-);
-
-class LessonForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-  }
-
-  handleFormSubmit(formProps) {
-    this.props.handleFormSubmit(formProps);
-  }
-
+class LessonForm extends React.Component {
   render() {
-    const { handleSubmit } = this.props;
-
     return (
-      <div className="form-container">
-        <h1>Lesson</h1>
-        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+      <div>
+        <form>
+          <TextInput
+            name="name"
+            label="name"
+            value={this.props.lesson.name}
+            onChange={this.props.onChange}
+          />
 
-          {/* name */}
-          <Field name="name" component={renderField} type="text" placeholder="Lesson name" />
-
-          {/* Server error message */}
-          <div>
-            { this.props.errorMessage && this.props.errorMessage.lesson &&
-                <div className="error-container">Oops! { this.props.errorMessage.lesson }</div> }
-          </div>
-
-          {/* Submit button */}
-          <button type="submit" className="btn">Send</button>
-
+          <input
+            type="submit"
+            disabled={this.props.saving}
+            className="btn btn-primary"
+            onClick={this.props.onSave}
+          />
         </form>
       </div>
-    )
+  );
   }
 }
 
-const validate = props => {
-  const errors = {};
-  const fields = ['name'];
-
-  fields.forEach((f) => {
-    if(!(f in props)) {
-      errors[f] = `${f} is required`;
-    }
-  });
-
-
-  if(props.name && props.name.length < 3) {
-    errors.name = "minimum 3 characters";
-  }
-
-
-  return errors;
+LessonForm.propTypes = {
+  lesson: React.PropTypes.object.isRequired,
+  onSave: React.PropTypes.func.isRequired,
+  onChange: React.PropTypes.func.isRequired
 };
 
-
-function mapStateToProps(state) {
-  return { errorMessage: state.lesson.error };
-}
-LessonForm.propTypes = {
-  handleFormSubmit: React.PropTypes.func.isRequired,
-  handleSubmit: React.PropTypes.func.isRequired,
-}
-
-LessonForm = reduxForm({ form: 'LessonForm', validate })(LessonForm);
-
-export default connect(mapStateToProps, actions)(LessonForm);
+export default LessonForm;

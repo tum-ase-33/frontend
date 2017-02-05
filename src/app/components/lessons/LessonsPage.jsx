@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import * as actions from '../../actions/lessons';
 import LessonList from './LessonList'
 
@@ -18,7 +19,11 @@ class LessonsPage extends React.Component {
 
     return (
       <div className="col-md-12">
-        <h1>Lessons</h1>
+        <h1>Lessons
+          <Link to={'/lessons/new'} className="btn btn-primary">
+            + lesson
+          </Link>
+        </h1>
         <div className="col-md-4">
           <LessonList lessons={lessons} />
         </div>
