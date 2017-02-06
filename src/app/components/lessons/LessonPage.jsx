@@ -104,6 +104,9 @@ function mapStateToProps(state, ownProps) {
   if (lessons == null) {
     return {};
   }
+  if(lessonGroups== null){
+    return {};
+  }
 
   lesson = Object.assign({}, lessons.find(l => l._id === lessonId));
   lessonGroups = lessonGroups.filter(l => l.lessonId === lessonId);
